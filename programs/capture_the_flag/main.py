@@ -1,0 +1,86 @@
+import tkinter as tk
+from tkinter import filedialog
+import re
+
+
+def main():
+    # Colors and font    
+    font: tuple = ("Consolas", 30)
+    colors: dict = {
+        "bg": "black",
+        "text": "white",
+        "flag_text": "limegreen"
+    }
+
+
+    wn: tk.Tk = tk.Tk()
+    wn.title("Capture the Flag")
+    wn.geometry("700x150")
+    wn.configure(bg=colors["bg"])
+
+
+    top_frame: tk.Frame = tk.Frame(wn)
+    top_frame.pack(
+        side="top",
+        anchor="w",
+        padx=10,
+        pady=10,
+    )
+
+    flag_label: tk.Label = tk.Label(
+        top_frame,
+        text="Flag:",
+        font=font,
+        fg=colors["text"],
+        bg=colors["bg"],
+    )
+    flag_label.pack(side="left")
+
+    flag_value_label: tk.Label = tk.Label(
+        top_frame,
+        text="",
+        font=font,
+        fg=colors["flag_text"],
+        bg=colors["bg"],
+    )
+    flag_value_label.pack(side="left")
+
+
+    bottom_frame: tk.Frame = tk.Frame(wn)
+    bottom_frame.pack(
+        side="bottom",
+        fill="both",
+        padx=10,
+        pady=10,
+    )
+
+    search_button: tk.Button = tk.Button(
+        bottom_frame,
+        text="FIND",
+        font = font,
+        command = lambda: find_flag(flag_value_label),
+    )
+    search_button.pack(fill="both")
+
+    wn.mainloop()
+
+
+def find_flag(result_label: tk.Label) -> None:
+    """Find flag in file and update Label with result"""
+
+    filename = filedialog.askopenfilename()
+
+    with open(filename, "r") as file:
+        text = file.read()
+
+    pattern: str = r"FLAG[-]{1,3}\w+[-]{1,3}|FLAG[>]{1,2}\w+[<]{1,2}"
+    results: re.Match = re.search(pattern, text)
+    
+    if results:
+        value: str = results.group()
+        result_label.config(text=value)
+    else:
+        result_label.config(text="No Flag Found!")
+
+
+main()
