@@ -1,54 +1,85 @@
-import pygal as pg
-from pygal.style import Style
+import tkinter as tk
 
-from dice import Die
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+from dice import DiceRoller
 
 
 def main():
-    # Create dice
-    die1: Die = Die(20)
-    die2: Die = Die(20)
+    pack_style: dict = {"fill":"both", "expand":True}    
+    font: tuple = ("Consolas", 20)
 
-    # Simulate rolling and add the results.
-    number_of_rolls: int = 100000
+    # Create a window
+    root: tk.Tk = tk.Tk()
+    root.title("TKINTER IS WORKING")
 
-    results: list[int] = []
+    main_frame: tk.Frame = tk.Frame(root)
+    main_frame.pack(padx=10, pady=10)
 
-    for roll in range(number_of_rolls):
-        result: int = die1.roll() + die2.roll()
-        results.append(result)
-
-    # Analyze the results from the rolls
-    counts: dict = {}
-    max_result: int = die1.sides + die2.sides
-
-    for sum_value in range(2, max_result + 1):
-        counts[sum_value] = results.count(sum_value)
-
-    # Create a graph to show the results.
-    # Change the colors of the graph
-    # Can't use my colors
-    my_style: Style = Style(
-        colors=("cyan",),
-        background="black",
-        plot_background="black",
-        foreground="white",
-        foreground_strong="white",
-        guide_stroke_color="grey",
-        major_guide_stroke_color="grey",
+    die1_label: tk.Label = tk.Label(
+        main_frame, text="Die 1 Sides:", font=font, anchor="w"
     )
+    die1_label.pack(pack_style)   
+    die1_entry: tk.Entry = tk.Entry(main_frame, font=font)
+    die1_entry.pack(pack_style)
 
-    graph: pg.Bar = pg.Bar(style=my_style)
-    graph.title = "Dice Roll Results"
+    die2_label: tk.Label = tk.Label(
+        main_frame, text="Die 2 Sides:", font=font, anchor="w"
+    )
+    die2_label.pack(pack_style)   
+    die2_entry: tk.Entry = tk.Entry(main_frame, font=font)
+    die2_entry.pack(pack_style)   
 
-    graph.x_title = "Results"
-    graph.x_labels = counts.keys()
+    num_rolls_label: tk.Label = tk.Label(
+        main_frame, text="Number of Rolls:", font=font, anchor="w"
+    )
+    num_rolls_label.pack(pack_style)
+    num_rolls_entry: tk.Entry = tk.Entry(main_frame, font=font)
+    num_rolls_entry.pack(pack_style)
+    fig, ax = plt.subplots()
+    
+    ax.set_title(f"Results of rolling two dice.")
+    ax.set_xlabel("Sum of two dice")
+    ax.set_ylabel("Frequency of sum")
 
-    graph.y_title = "Frequency"
-    graph.add("Sum", counts.values())
+    canvas: FigureCanvasTkAgg = FigureCanvasTkAgg(fig, master=main_frame)
 
-    graph.render_to_file("dice_sim.svg")
+    dice_roller: DiceRoller = DiceRoller(
+        die1_entry,
+        die2_entry,
+        num_rolls_entry,
+        ax,
+        canvas,
+    )
+    
+    canvas_widget: tk.Widget = canvas.get_tk_widget()
 
+    plt.tight_layout()
+
+    canvas_widget.pack(padx=5, pady=5)
+
+    roll_button: tk.Button = tk.Button(
+        main_frame,
+        text="Roll Dice",
+        command=dice_roller.create_figure, 
+        font=font,       
+    )
+    roll_button.pack(pack_style)
+
+    root.protocol("WM_DELETE_WINDOW", lambda: on_closing(root))
+    root.mainloop()
+
+
+def on_closing(root: tk.Tk) -> None:
+    """Handle the window closing event.
+    This function is called when the window is closed.
+    Matplotlib will not close the window automatically and is
+    blocking the main thread with its event loop.
+    """
+
+    root.quit()
+    root.destroy()
 
 if __name__ == "__main__":
     main()
