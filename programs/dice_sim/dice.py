@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import tkinter as tk
-import tkinter.ttk as ttk
 import random as rm
 
 
@@ -29,17 +28,17 @@ class DiceRoller:
 
     def __init__(
         self,
-        die1: ttk.Entry,
-        die2: ttk.Entry,
-        number_of_rolls: ttk.Entry,
+        die1: tk.Entry,
+        die2: tk.Entry,
+        number_of_rolls: tk.Entry,
         ax: plt.Axes,
         canvas: FigureCanvasTkAgg,
     ) -> None:
         """Create a DiceRoller with two dice."""
 
-        self.die1: ttk.Entry = die1
-        self.die2: ttk.Entry = die2
-        self.number_of_rolls: ttk.Entry = number_of_rolls
+        self.die1: tk.Entry = die1
+        self.die2: tk.Entry = die2
+        self.number_of_rolls: tk.Entry = number_of_rolls
         self.ax: plt.Axes = ax
         self.canvas: FigureCanvasTkAgg = canvas
 
