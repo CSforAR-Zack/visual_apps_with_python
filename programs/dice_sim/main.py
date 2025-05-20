@@ -12,7 +12,7 @@ def main():
 
     # Create a window
     root: tk.Tk = tk.Tk()
-    root.title("TKINTER IS WORKING")
+    root.title("Dice Roller")
 
     main_frame: tk.Frame = tk.Frame(root)
     main_frame.pack(padx=10, pady=10)
@@ -54,9 +54,6 @@ def main():
     )
     
     canvas_widget: tk.Widget = canvas.get_tk_widget()
-
-    plt.tight_layout()
-
     canvas_widget.pack(padx=5, pady=5)
 
     roll_button: tk.Button = tk.Button(

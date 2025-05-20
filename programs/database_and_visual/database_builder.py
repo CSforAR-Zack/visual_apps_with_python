@@ -12,8 +12,8 @@ def main():
     dataset_id: str = "GHCND"
     datatype_ids: str = "TMAX,TMIN"
     station_id: str = "GHCND:USW00003952"
-    start_date: str = "2025-01-01"
-    end_date: str = "2025-01-31"
+    start_date: str = "2024-01-01"
+    end_date: str = "2024-12-31"
     units: str = "standard"
 
     requests_url_parts: list = [
