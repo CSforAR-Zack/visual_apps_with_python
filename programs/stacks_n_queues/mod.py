@@ -81,7 +81,7 @@ class Queue(BaseStructure):
         else:
             return None
     
-    def view_value(self) -> Optional[int]:
+    def view_next(self) -> Optional[int]:
         """Return the oldest item from the queue or None if the queue is empty"""
 
         if not self.is_empty():

@@ -1,12 +1,9 @@
 import calendar
 import datetime as dt
-import json
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import requests as req
 import sqlite3 as s3
 import tkinter as tk
-from tkinter import ttk
 
 
 def main():
@@ -21,30 +18,26 @@ def main():
         text="Select Month:",
         anchor="w",
     )
-    month_label.pack(padx=5, pady=5)
+    month_label.pack(expand=True, fill="both", padx=5, pady=5)
 
-    months: list = []
-    for index, month in enumerate(calendar.month_name):
-        print(type(month))
-        if month == "":
-            months.append((index, 'Full Year'))
-        else:
-            months.append((index, month))
+    months: list = list(calendar.month_name)
+    months.remove("")
+    months.insert(0, "Full Year")
+
     graph_command = lambda: graph_data(
-        month_combobox.get(),
+        months.index(month_spinbox.get()),
         ax,
-        root,
         canvas,
     )
 
-    month_combobox: ttk.Combobox = ttk.Combobox(
+    month_spinbox: tk.Spinbox = tk.Spinbox(
         root,
         values=months,
         state="readonly",
+        command=graph_command,
     )
-    month_combobox.pack(padx=5, pady=5)
-    month_combobox.bind("<<ComboboxSelected>>", graph_command)
-    month_combobox.current(0)
+
+    month_spinbox.pack(expand=True, fill="both", padx=5, pady=5)
 
     fig, ax = plt.subplots()
     ax.set_title("Little Rock Daily Temps")
@@ -63,7 +56,7 @@ def main():
     root.mainloop()
 
 
-def graph_data(selection: str, ax: plt.Axes, root: tk.Tk, canvas: FigureCanvasTkAgg
+def graph_data(selection: str, ax: plt.Axes, canvas: FigureCanvasTkAgg
 ) -> None:
     """Graph the data in the database."""
     
@@ -93,19 +86,15 @@ def on_closing(root: tk.Tk) -> None:
     root.destroy()
 
 
-def create_visual():
-    pass
-
-
 def get_data(selection: str) -> list:
-    # Load data from the database
-    print(selection)
-    if selection == "Full Year":
+    """Get the data from the database."""
+
+    if selection == 0:
         start_date: str = "2024-01-01"
         end_date: str = "2024-12-31"
     else:
-        start_date: str = f"2024-{selection[0]}-01"
-        end_date: str = f"2024-{selection[0]}-31"
+        start_date: str = f"2024-{selection:02}-01"
+        end_date: str = f"2024-{selection:02}-31"
 
     conn: s3.Connection = s3.connect("weather.db")
     c: s3.Cursor = conn.cursor()

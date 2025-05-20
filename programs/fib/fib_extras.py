@@ -160,7 +160,7 @@ def get_row_col(i: int, c: int) -> tuple:
 
 
 if __name__ == "__main__":
-    fib_linear()
+    # fib_linear()
     # fib_linear_gradient()
     # fib_braid()
-    # fib_braid_gradient()
+    fib_braid_gradient()

@@ -57,7 +57,7 @@ class Boxes:
             self.output.config(text="Empty")
             return
         
-        box: Box = self.struct.view_value()
+        box: Box = self.struct.view_next()
         self.output.config(text=box.text)
 
 
