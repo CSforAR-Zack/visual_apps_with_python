@@ -1,0 +1,205 @@
+import tkinter as tk
+
+
+def main():
+    app = MyApp()
+    app.mainloop()
+
+
+class MyApp(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("My App")
+        self.geometry("800x600")
+        self.resizable(False, False)
+
+        self.create_main_frame()
+        self.create_content_frame()
+        self.create_navigator_frame()
+
+        self.about_page()
+
+    def create_main_frame(self) -> None:
+        self.main = tk.Frame(self, bg=Color.COLOR1)
+        self.main.pack(fill=tk.BOTH, expand=True)
+        self.main.columnconfigure(0, weight=1)
+        self.main.rowconfigure(0, weight=1)
+
+    def create_content_frame(self) -> None:
+        """Create the content frame."""
+
+        self.content: tk.Frame = tk.Frame(self.main, bg=Color.COLOR1)
+        self.content.grid(column=0, row=0, sticky=tk.NSEW)
+        self.content.columnconfigure(0, weight=1)
+        self.content.rowconfigure(0, weight=1)
+
+    def create_navigator_frame(self) -> None:
+        """Create the navigator frame."""
+
+        self.navigator: tk.Frame = tk.Frame(self.main, bg=Color.COLOR1)
+        self.navigator.grid(column=0, row=1, sticky=tk.NSEW)
+        self.navigator.columnconfigure(0, weight=1)
+        self.navigator.columnconfigure(1, weight=1)
+        self.navigator.columnconfigure(2, weight=1)
+        self.navigator.rowconfigure(0, weight=1)
+        self.navigator.rowconfigure(1, weight=1)
+        self.navigator.rowconfigure(2, weight=1)
+
+        self.create_buttons()
+
+    def create_buttons(self) -> None:
+        """Create buttons for the navigator frame."""
+
+        about_button: tk.Button = tk.Button(
+            self.navigator,
+            text="About",
+            command=self.about_page,
+            bg=Color.COLOR2,
+            fg=Color.COLOR3,
+        )
+        about_button.grid(column=0, row=0, sticky="nsew")
+
+        hobby_button: tk.Button = tk.Button(
+            self.navigator,
+            text="Hobby",
+            command=self.hobby_page,
+            bg=Color.COLOR2,
+            fg=Color.COLOR3,
+        )
+        hobby_button.grid(column=1, row=0, sticky="nsew")
+
+        work_button: tk.Button = tk.Button(
+            self.navigator,
+            text="Work",
+            command=self.work_page,
+            bg=Color.COLOR2,
+            fg=Color.COLOR3,
+        )
+        work_button.grid(column=2, row=0, sticky="nsew")
+
+    def clear_frame(self, frame: tk.Frame) -> None:
+        """Clear the frame of all widgets."""
+
+        for child in frame.winfo_children():
+            child.destroy()
+
+    def about_page(self) -> None:
+        """Display the about page."""
+
+        self.clear_frame(self.content)
+
+        title: tk.Label = tk.Label(
+            self.content,
+            text="About me!",
+            background=Color.COLOR1,
+            foreground=Color.COLOR3,
+            font=Font.TITLE,
+        )
+        title.grid(column=0, row=0)
+
+        self_image: tk.PhotoImage = tk.PhotoImage(master=self.content, file="self.png")
+        self_image = self_image.subsample(2)
+        self_label: tk.Label = tk.Label(
+            self.content,
+            image=self_image,
+            background=Color.COLOR1,
+        )
+        self_label.grid(column=0, row=1, sticky=tk.NSEW)        
+        self_label.image = self_image
+
+        content: tk.Label = tk.Label(
+            self.content,
+            text="This is me! Let's get to know each other!",
+            background=Color.COLOR1,
+            foreground=Color.COLOR3,
+            font=Font.TEXT,
+        )
+        content.grid(column=0, row=2)
+
+
+    def hobby_page(self) -> None:
+        """Display the hobby page."""
+
+        self.clear_frame(self.content)
+
+        title: tk.Label = tk.Label(
+            self.content,
+            text="Gaming!",
+            background=Color.COLOR1,
+            foreground=Color.COLOR3,
+            font=Font.TITLE,
+        )
+        title.grid(column=0, row=0)
+
+        self_image: tk.PhotoImage = tk.PhotoImage(master=self.content, file="hobby.png")
+        self_image = self_image.subsample(2)
+        self_label: tk.Label = tk.Label(
+            self.content,
+            image=self_image,
+            background=Color.COLOR1,
+        )
+        self_label.grid(column=0, row=1, sticky=tk.NSEW)        
+        self_label.image = self_image
+
+        content: tk.Label = tk.Label(
+            self.content,
+            text="I like to play games! Let's play together!",
+            background=Color.COLOR1,
+            foreground=Color.COLOR3,
+            font=Font.TEXT,
+        )
+        content.grid(column=0, row=2)
+
+
+    def work_page(self) -> None:
+        """Display the work page."""
+
+        self.clear_frame(self.content)
+
+        title: tk.Label = tk.Label(
+            self.content,
+            text="Robot High!",
+            background=Color.COLOR1,
+            foreground=Color.COLOR3,
+            font=Font.TITLE,
+        )
+        title.grid(column=0, row=0)
+
+        self_image: tk.PhotoImage = tk.PhotoImage(master=self.content, file="work.png")
+        self_image = self_image.subsample(2)
+        self_label: tk.Label = tk.Label(
+            self.content,
+            image=self_image,
+            background=Color.COLOR1,
+        )
+        self_label.grid(column=0, row=1, sticky=tk.NSEW)        
+        self_label.image = self_image
+
+        content: tk.Label = tk.Label(
+            self.content,
+            text="This is my work! Let's work together!",
+            background=Color.COLOR1,
+            foreground=Color.COLOR3,
+            font=Font.TEXT,
+        )
+        content.grid(column=0, row=2)
+
+
+# Enums
+class Color:
+    """Color class to hold color values."""
+
+    COLOR1: str = "#2E2E2E"
+    COLOR2: str = "#3E3E3E"
+    COLOR3: str = "#FFFFFF"
+
+
+class Font:
+    """Font class to hold font values."""
+
+    TITLE: str = ("Arial", 24, "bold")
+    TEXT: str = ("Arial", 12, "normal")
+
+
+if __name__ == "__main__":
+    main()
