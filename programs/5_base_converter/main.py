@@ -3,45 +3,45 @@ from tkinter.font import Font
 
 
 def main():
-    wn: tk.Tk = tk.Tk()
-    wn.title("Base Converter")
-    wn.configure(bg=Colors.background)
+    root: tk.Tk = tk.Tk()
+    root.title("Base Converter")
+    root.configure(bg=Colors.COLOR1)
     font_style: Font = Font(family="Consolas", size=20)
 
     number_entry: tk.Entry = tk.Entry(
-        wn,
+        root,
         font=font_style,
-        bg=Colors.forground,
-        fg=Colors.text,
+        bg=Colors.COLOR2,
+        fg=Colors.TEXT,
     )
 
     choices: tuple = ("Binary", "Octal", "Decimal", "Hexidecimal")
     base_input_sbox: tk.Spinbox = tk.Spinbox(
-        wn,
+        root,
         font=font_style,
         values=choices,
         state="readonly",
-        readonlybackground=Colors.forground,
-        buttonbackground=Colors.forground,
-        fg=Colors.text,
+        readonlybackground=Colors.COLOR2,
+        buttonbackground=Colors.COLOR2,
+        fg=Colors.TEXT,
     )
 
     base_output_sbox: tk.Spinbox = tk.Spinbox(
-        wn,
+        root,
         font=font_style,
         values=choices,
         state="readonly",
-        readonlybackground=Colors.forground,
-        buttonbackground=Colors.forground,
-        fg=Colors.text,
+        readonlybackground=Colors.COLOR2,
+        buttonbackground=Colors.COLOR2,
+        fg=Colors.TEXT,
     )
 
     result_label: tk.Label = tk.Label(
-        wn,
+        root,
         text="-",
         font=font_style,
-        bg=Colors.background,
-        fg=Colors.text,
+        bg=Colors.COLOR1,
+        fg=Colors.TEXT,
     )
 
     command_center: CommandCenter = CommandCenter(
@@ -52,19 +52,19 @@ def main():
     )
 
     convert_button: tk.Button = tk.Button(
-        wn,
+        root,
         text="Convert",
         command=command_center.convert,
         font=font_style,
-        bg=Colors.background,
-        fg=Colors.text,
-        activebackground=Colors.text,
-        activeforeground=Colors.background,
+        bg=Colors.COLOR1,
+        fg=Colors.TEXT,
+        activebackground=Colors.TEXT,
+        activeforeground=Colors.COLOR1,
     )
 
-    logo: tk.PhotoImage = tk.PhotoImage(master=wn, file="base_converter/logo.png")
+    logo: tk.PhotoImage = tk.PhotoImage(master=root, file="logo.png")
     logo = logo.subsample(2)
-    logo_label: tk.Label = tk.Label(wn, image=logo, bg=Colors.background)
+    logo_label: tk.Label = tk.Label(root, image=logo, bg=Colors.COLOR1)
 
     # Packing area
     px: int = 10
@@ -76,7 +76,7 @@ def main():
     result_label.pack(fill="x", padx=px, pady=py)
     logo_label.pack(fill="x", padx=px, pady=py)
 
-    wn.mainloop()
+    root.mainloop()
 
 
 class CommandCenter:
@@ -133,9 +133,9 @@ class CommandCenter:
 class Colors:
     """Color class for storing the colors."""
 
-    background: str = "#222222"
-    forground: str = "#444444"
-    text: str = "#f59342"
+    COLOR1: str = "#222222"
+    COLOR2: str = "#444444"
+    TEXT: str = "#f59342"
 
 
 if __name__ == "__main__":

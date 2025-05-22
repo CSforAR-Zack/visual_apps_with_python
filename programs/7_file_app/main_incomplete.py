@@ -10,7 +10,7 @@ def main():
 
     # Window Setup
     wn: tk.Tk = tk.Tk()
-    wn.title("File Automation")
+    wn.title("File Manager")
 
     # Fonts
     label_font: Font = Font(size=30)
@@ -26,7 +26,7 @@ def main():
     # Label
     label: tk.Label = tk.Label(
         frame,
-        text="File Automation",
+        text="File Manager",
         font=label_font,
         bg=Colors.background_color,
         fg=Colors.text_color,

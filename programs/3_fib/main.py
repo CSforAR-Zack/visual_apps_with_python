@@ -6,8 +6,8 @@ def main():
     """Main function to run the Fibonacci program"""
 
     # fib_linear()
-    # fib_braid()
-    fib_recursive()
+    fib_braid()
+    # fib_recursive()
 
 
 # Fibonacci using linear pattern
@@ -18,9 +18,9 @@ def fib_linear():
 
     count: int = 12
 
-    wn: tk.Tk = tk.Tk()
-    wn.title("Fibonacci")
-    wn.config(bg="black")
+    root: tk.Tk = tk.Tk()
+    root.title("Fibonacci")
+    root.config(bg="black")
     
     a: int = 0
     b: int = 1
@@ -30,12 +30,12 @@ def fib_linear():
         a = b
         b = c
 
-        bar: tk.Frame = tk.Frame(wn, width=c, height=c, bg=colors[i % len(colors)])
+        bar: tk.Frame = tk.Frame(root, width=c, height=c, bg=colors[i % len(colors)])
         bar.pack(side="left", anchor="s")
         sleep(0.5)
-        wn.update()
+        root.update()
 
-    wn.mainloop()
+    root.mainloop()
 
 
 def fib_braid():
@@ -43,13 +43,13 @@ def fib_braid():
 
     colors: list = ["red", "orange", "green", "blue", "darkblue", "purple"]
 
-    count: int = 15
+    count: int = 12
     row: int = 0
     col: int = 0
 
-    wn: tk.Tk = tk.Tk()
-    wn.title("Fibonacci")
-    wn.config(bg="black")
+    root: tk.Tk = tk.Tk()
+    root.title("Fibonacci")
+    root.config(bg="black")
     
     a: int = 0
     b: int = 1
@@ -61,13 +61,13 @@ def fib_braid():
 
         row, col = get_row_col(i, c)
 
-        square: tk.Frame = tk.Frame(wn, width=c, height=c, bg=colors[i % len(colors)])
+        square: tk.Frame = tk.Frame(root, width=c, height=c, bg=colors[i % len(colors)])
         square.grid(row=row, column=col, columnspan=c, rowspan=c)
         
         sleep(0.5)
-        wn.update()
+        root.update()
 
-    wn.mainloop()
+    root.mainloop()
 
 
 def get_row_col(i: int, c: int) -> tuple:

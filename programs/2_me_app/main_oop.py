@@ -10,8 +10,7 @@ class MyApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("My App")
-        self.geometry("800x600")
-        self.resizable(False, False)
+        self.geometry("800x620")
 
         self.create_main_frame()
         self.create_content_frame()
@@ -22,28 +21,18 @@ class MyApp(tk.Tk):
     def create_main_frame(self) -> None:
         self.main = tk.Frame(self, bg=Color.COLOR1)
         self.main.pack(fill=tk.BOTH, expand=True)
-        self.main.columnconfigure(0, weight=1)
-        self.main.rowconfigure(0, weight=1)
 
     def create_content_frame(self) -> None:
         """Create the content frame."""
 
         self.content: tk.Frame = tk.Frame(self.main, bg=Color.COLOR1)
-        self.content.grid(column=0, row=0, sticky=tk.NSEW)
-        self.content.columnconfigure(0, weight=1)
-        self.content.rowconfigure(0, weight=1)
+        self.content.pack(fill=tk.BOTH, expand=True)
 
     def create_navigator_frame(self) -> None:
         """Create the navigator frame."""
 
         self.navigator: tk.Frame = tk.Frame(self.main, bg=Color.COLOR1)
-        self.navigator.grid(column=0, row=1, sticky=tk.NSEW)
-        self.navigator.columnconfigure(0, weight=1)
-        self.navigator.columnconfigure(1, weight=1)
-        self.navigator.columnconfigure(2, weight=1)
-        self.navigator.rowconfigure(0, weight=1)
-        self.navigator.rowconfigure(1, weight=1)
-        self.navigator.rowconfigure(2, weight=1)
+        self.navigator.pack(fill=tk.X, side=tk.BOTTOM)
 
         self.create_buttons()
 
@@ -57,7 +46,7 @@ class MyApp(tk.Tk):
             bg=Color.COLOR2,
             fg=Color.COLOR3,
         )
-        about_button.grid(column=0, row=0, sticky="nsew")
+        about_button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         hobby_button: tk.Button = tk.Button(
             self.navigator,
@@ -66,7 +55,7 @@ class MyApp(tk.Tk):
             bg=Color.COLOR2,
             fg=Color.COLOR3,
         )
-        hobby_button.grid(column=1, row=0, sticky="nsew")
+        hobby_button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         work_button: tk.Button = tk.Button(
             self.navigator,
@@ -75,7 +64,7 @@ class MyApp(tk.Tk):
             bg=Color.COLOR2,
             fg=Color.COLOR3,
         )
-        work_button.grid(column=2, row=0, sticky="nsew")
+        work_button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     def clear_frame(self, frame: tk.Frame) -> None:
         """Clear the frame of all widgets."""
@@ -95,7 +84,7 @@ class MyApp(tk.Tk):
             foreground=Color.COLOR3,
             font=Font.TITLE,
         )
-        title.grid(column=0, row=0)
+        title.pack()
 
         self_image: tk.PhotoImage = tk.PhotoImage(master=self.content, file="self.png")
         self_image = self_image.subsample(2)
@@ -104,7 +93,7 @@ class MyApp(tk.Tk):
             image=self_image,
             background=Color.COLOR1,
         )
-        self_label.grid(column=0, row=1, sticky=tk.NSEW)        
+        self_label.pack()  
         self_label.image = self_image
 
         content: tk.Label = tk.Label(
@@ -114,7 +103,7 @@ class MyApp(tk.Tk):
             foreground=Color.COLOR3,
             font=Font.TEXT,
         )
-        content.grid(column=0, row=2)
+        content.pack()
 
 
     def hobby_page(self) -> None:
@@ -129,7 +118,7 @@ class MyApp(tk.Tk):
             foreground=Color.COLOR3,
             font=Font.TITLE,
         )
-        title.grid(column=0, row=0)
+        title.pack()
 
         self_image: tk.PhotoImage = tk.PhotoImage(master=self.content, file="hobby.png")
         self_image = self_image.subsample(2)
@@ -138,7 +127,7 @@ class MyApp(tk.Tk):
             image=self_image,
             background=Color.COLOR1,
         )
-        self_label.grid(column=0, row=1, sticky=tk.NSEW)        
+        self_label.pack()        
         self_label.image = self_image
 
         content: tk.Label = tk.Label(
@@ -148,7 +137,7 @@ class MyApp(tk.Tk):
             foreground=Color.COLOR3,
             font=Font.TEXT,
         )
-        content.grid(column=0, row=2)
+        content.pack()
 
 
     def work_page(self) -> None:
@@ -163,7 +152,7 @@ class MyApp(tk.Tk):
             foreground=Color.COLOR3,
             font=Font.TITLE,
         )
-        title.grid(column=0, row=0)
+        title.pack()
 
         self_image: tk.PhotoImage = tk.PhotoImage(master=self.content, file="work.png")
         self_image = self_image.subsample(2)
@@ -172,7 +161,7 @@ class MyApp(tk.Tk):
             image=self_image,
             background=Color.COLOR1,
         )
-        self_label.grid(column=0, row=1, sticky=tk.NSEW)        
+        self_label.pack()      
         self_label.image = self_image
 
         content: tk.Label = tk.Label(
@@ -182,7 +171,7 @@ class MyApp(tk.Tk):
             foreground=Color.COLOR3,
             font=Font.TEXT,
         )
-        content.grid(column=0, row=2)
+        content.pack()
 
 
 # Enums

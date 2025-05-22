@@ -21,20 +21,20 @@ def main():
     }
 
     # Set up window
-    wn: tk.Tk = tk.Tk()
-    wn.title('Visual Sort')
-    wn.config(bg=colors['background'])
+    root: tk.Tk = tk.Tk()
+    root.title('Visual Sort')
+    root.config(bg=colors['background'])
 
     # Create bars using frames with different heights
     bars: list[tk.Frame] = create_bars(
-        wn, number_of_bars, width, max_height, colors['unsorted'], x_pad, y_pad
+        root, number_of_bars, width, max_height, colors['unsorted'], x_pad, y_pad
     )
 
     # bubble_sort(wn, bars, colors, x_pad, y_pad, speed)
-    selection_sort(wn, bars, colors, x_pad, y_pad, speed)
+    selection_sort(root, bars, colors, x_pad, y_pad, speed)
     # insertion_sort(wn, bars, colors, x_pad, y_pad, speed)
 
-    wn.mainloop()
+    root.mainloop()
 
 
 def create_bars(

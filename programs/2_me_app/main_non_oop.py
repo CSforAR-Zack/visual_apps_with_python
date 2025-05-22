@@ -4,8 +4,7 @@ import tkinter as tk
 def main():
     root = tk.Tk()
     root.title("My App")
-    root.geometry("800x600")
-    root.resizable(False, False)
+    root.geometry("800x620")
 
     main_frame = create_main_frame(root)
     content_frame = create_content_frame(main_frame)    
@@ -23,8 +22,6 @@ def create_main_frame(root: tk.Tk) -> tk.Frame:
 
     main_frame: tk.Frame = tk.Frame(root, bg=Color.COLOR1)
     main_frame.pack(fill=tk.BOTH, expand=True)
-    main_frame.columnconfigure(0, weight=1)
-    main_frame.rowconfigure(0, weight=1)
     return main_frame
 
 
@@ -32,9 +29,7 @@ def create_content_frame(main_frame: tk.Frame) -> tk.Frame:
     """Create the content frame."""
 
     content_frame: tk.Frame = tk.Frame(main_frame, bg=Color.COLOR1)
-    content_frame.grid(column=0, row=0, sticky=tk.NSEW)
-    content_frame.columnconfigure(0, weight=1)
-    content_frame.rowconfigure(0, weight=1)
+    content_frame.pack(fill=tk.BOTH, expand=True)
     return content_frame
 
 
@@ -42,13 +37,7 @@ def create_navigator(main_frame: tk.Frame) -> tk.Frame:
     """Create the navigator frame."""
 
     navigator_frame: tk.Frame = tk.Frame(main_frame, bg=Color.COLOR1)
-    navigator_frame.grid(column=0, row=1, sticky=tk.NSEW)
-    navigator_frame.columnconfigure(0, weight=1)
-    navigator_frame.columnconfigure(1, weight=1)
-    navigator_frame.columnconfigure(2, weight=1)
-    navigator_frame.rowconfigure(0, weight=1)
-    navigator_frame.rowconfigure(1, weight=1)
-    navigator_frame.rowconfigure(2, weight=1)
+    navigator_frame.pack(fill=tk.X, side=tk.BOTTOM)
     return navigator_frame
 
 
@@ -62,7 +51,7 @@ def create_buttons(navigator_frame: tk.Frame, content_frame: tk.Frame) -> None:
         bg=Color.COLOR2,
         fg=Color.COLOR3,
     )
-    about_button.grid(column=0, row=0, sticky="nsew")
+    about_button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     hobby_button: tk.Button = tk.Button(
         navigator_frame,
@@ -71,7 +60,7 @@ def create_buttons(navigator_frame: tk.Frame, content_frame: tk.Frame) -> None:
         bg=Color.COLOR2,
         fg=Color.COLOR3,
     )
-    hobby_button.grid(column=1, row=0, sticky="nsew")
+    hobby_button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
     work_button: tk.Button = tk.Button(
         navigator_frame,
@@ -80,7 +69,7 @@ def create_buttons(navigator_frame: tk.Frame, content_frame: tk.Frame) -> None:
         bg=Color.COLOR2,
         fg=Color.COLOR3,
     )
-    work_button.grid(column=2, row=0, sticky="nsew")
+    work_button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
 
 def clear_frame(frame: tk.Frame) -> None:
@@ -102,7 +91,7 @@ def about_page(content_frame: tk.Frame) -> None:
         foreground=Color.COLOR3,
         font=Font.TITLE,
     )
-    title.grid(column=0, row=0)
+    title.pack()
 
     self_image: tk.PhotoImage = tk.PhotoImage(master=content_frame, file="self.png")
     self_image = self_image.subsample(2)
@@ -111,7 +100,7 @@ def about_page(content_frame: tk.Frame) -> None:
         image=self_image,
         background=Color.COLOR1,
     )
-    self_label.grid(column=0, row=1, sticky=tk.NSEW)        
+    self_label.pack()        
     self_label.image = self_image
 
     content: tk.Label = tk.Label(
@@ -121,7 +110,7 @@ def about_page(content_frame: tk.Frame) -> None:
         foreground=Color.COLOR3,
         font=Font.TEXT,
     )
-    content.grid(column=0, row=2)
+    content.pack()
 
 
 def hobby_page(content_frame: tk.Frame) -> None:
@@ -136,7 +125,7 @@ def hobby_page(content_frame: tk.Frame) -> None:
         foreground=Color.COLOR3,
         font=Font.TITLE,
     )
-    title.grid(column=0, row=0)
+    title.pack()
 
     self_image: tk.PhotoImage = tk.PhotoImage(master=content_frame, file="hobby.png")
     self_image = self_image.subsample(2)
@@ -145,7 +134,7 @@ def hobby_page(content_frame: tk.Frame) -> None:
         image=self_image,
         background=Color.COLOR1,
     )
-    self_label.grid(column=0, row=1, sticky=tk.NSEW)        
+    self_label.pack()       
     self_label.image = self_image
 
     content: tk.Label = tk.Label(
@@ -155,7 +144,7 @@ def hobby_page(content_frame: tk.Frame) -> None:
         foreground=Color.COLOR3,
         font=Font.TEXT,
     )
-    content.grid(column=0, row=2)
+    content.pack()
 
 
 def work_page(content_frame: tk.Frame) -> None:
@@ -170,7 +159,7 @@ def work_page(content_frame: tk.Frame) -> None:
         foreground=Color.COLOR3,
         font=Font.TITLE,
     )
-    title.grid(column=0, row=0)
+    title.pack()
 
     self_image: tk.PhotoImage = tk.PhotoImage(master=content_frame, file="work.png")
     self_image = self_image.subsample(2)
@@ -179,7 +168,7 @@ def work_page(content_frame: tk.Frame) -> None:
         image=self_image,
         background=Color.COLOR1,
     )
-    self_label.grid(column=0, row=1, sticky=tk.NSEW)        
+    self_label.pack()      
     self_label.image = self_image
 
     content: tk.Label = tk.Label(
@@ -189,7 +178,7 @@ def work_page(content_frame: tk.Frame) -> None:
         foreground=Color.COLOR3,
         font=Font.TEXT,
     )
-    content.grid(column=0, row=2)
+    content.pack()
 
 
 # Enums

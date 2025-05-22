@@ -3,32 +3,32 @@ from tkinter.font import Font
 
 
 def main():
-    wn: tk.Tk = tk.Tk()
-    wn.title("Calculator")
+    root: tk.Tk = tk.Tk()
+    root.title("Calculator")
 
     font_style: Font = Font(family="Courier", size=20)
     font_style_large: Font = Font(family="Courier", size=50)
 
-    entry_exp: tk.Entry = tk.Entry(wn, font=font_style)
-    label_eq: tk.Label = tk.Label(wn, text=" = ", font=font_style)
-    label_result: tk.Label = tk.Label(wn, text="0", font=font_style_large)
-    button_calc: tk.Button = tk.Button(
-        wn, 
+    exp_entry: tk.Entry = tk.Entry(root, font=font_style)
+    eq_label: tk.Label = tk.Label(root, text=" = ", font=font_style)
+    result_label: tk.Label = tk.Label(root, text="0", font=font_style_large)
+    calc_button: tk.Button = tk.Button(
+        root, 
         text="Calculate", 
         font=font_style,
-        command=lambda : calculate(entry_exp, label_result),
+        command=lambda : calculate(exp_entry, result_label),
     )
 
-    entry_exp.grid(row=0, column=0)
-    label_eq.grid(row=0, column=1)
-    label_result.grid(row=1)
-    button_calc.grid(row=2)
+    exp_entry.grid(row=0, column=0)
+    eq_label.grid(row=0, column=1)
+    result_label.grid(row=1)
+    calc_button.grid(row=2)
 
-    wn.mainloop()
+    root.mainloop()
 
 
-def calculate(entry_exp: tk.Entry, label_result: tk.Label) -> None:
-    expression: str = entry_exp.get()
+def calculate(exp_entry: tk.Entry, label_result: tk.Label) -> None:
+    expression: str = exp_entry.get()
     result: str = eval(expression)
     label_result["text"] = result
 

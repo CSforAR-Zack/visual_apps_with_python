@@ -7,28 +7,28 @@ from helpers import Boxes
 
 def main():
     # Create a window
-    window = tk.Tk()
-    window.title("Visualizer")
+    root: tk.Tk = tk.Tk()
+    root.title("Visualizer")
     font = Font(family="Helvetica", size=14)
 
     # Frames
-    left: tk.Frame = tk.Frame(window)
-    right: tk.Frame = tk.Frame(window)
-    left.pack(side="left", expand=True, fill="both")
-    right.pack(side="right", expand=True, fill="both")
+    left_frame: tk.Frame = tk.Frame(root)
+    right_frame: tk.Frame = tk.Frame(root)
+    left_frame.pack(side="left", expand=True, fill="both")
+    right_frame.pack(side="right", expand=True, fill="both")
 
     # Create Stack Section
     s: Stack = Stack()
-    s_items: tk.Frame  = tk.Frame(left)
-    s_label: tk.Label = tk.Label(left, text="Stack", font=font)
-    s_output: tk.Label = tk.Label(left, text="-", font=font)
-    s_entry: tk.Label = tk.Entry(left, font=font)
+    s_items: tk.Frame  = tk.Frame(left_frame)
+    s_label: tk.Label = tk.Label(left_frame, text="Stack", font=font)
+    s_output: tk.Label = tk.Label(left_frame, text="-", font=font)
+    s_entry: tk.Label = tk.Entry(left_frame, font=font)
 
     s_center: Boxes = Boxes(
-        s, s_items, s_entry, s_output, window, font
+        s, s_items, s_entry, s_output, root, font
     )
 
-    s_buttons: tk.Frame = tk.Frame(left)
+    s_buttons: tk.Frame = tk.Frame(left_frame)
     s_push: tk.Button = tk.Button(
         s_buttons, text="Push", command=s_center.add_box, font=font
     )
@@ -50,14 +50,14 @@ def main():
 
     # Create Queue Section
     q: Queue = Queue()
-    q_items: tk.Frame = tk.Frame(right)
-    q_label: tk.Label = tk.Label(right, text="Queue", font=font)
-    q_output: tk.Label = tk.Label(right, text="-", font=font)
-    q_entry: tk.Entry = tk.Entry(right, font=font)
+    q_items: tk.Frame = tk.Frame(right_frame)
+    q_label: tk.Label = tk.Label(right_frame, text="Queue", font=font)
+    q_output: tk.Label = tk.Label(right_frame, text="-", font=font)
+    q_entry: tk.Entry = tk.Entry(right_frame, font=font)
 
-    q_center = Boxes(q, q_items, q_entry, q_output, window, font)
+    q_center = Boxes(q, q_items, q_entry, q_output, root, font)
 
-    q_buttons: tk.Frame = tk.Frame(right)
+    q_buttons: tk.Frame = tk.Frame(right_frame)
     add_button: tk.Button  = tk.Button(
         q_buttons, text="Add", command=q_center.add_box, font=font
     )
@@ -79,7 +79,7 @@ def main():
     q_items.pack(fill="x")
 
     # Last thing in main...
-    window.mainloop()
+    root.mainloop()
 
 
 def update_window(items: Boxes, wn: tk.Tk) -> None:

@@ -14,33 +14,33 @@ def main():
     button_size_y: int = 3
 
     # Window Setup
-    wn: tk.Tk = tk.Tk()
-    wn.title("File Automation")
+    root: tk.Tk = tk.Tk()
+    root.title("File Manager")
 
     # Fonts
     label_font: Font = Font(size=30)
 
-    frame: tk.Frame = tk.Frame(
-        wn,
+    main_frame: tk.Frame = tk.Frame(
+        root,
         bg=Colors.background_color,
         padx=padding,
         pady=padding,
     )
-    frame.pack()
+    main_frame.pack()
 
     # Label
-    label: tk.Label = tk.Label(
-        frame,
-        text="File Automation",
+    title_label: tk.Label = tk.Label(
+        main_frame,
+        text="File Manager",
         font=label_font,
         bg=Colors.background_color,
         fg=Colors.text_color,
     )
-    label.pack()
+    title_label.pack()
 
     # Buttons
     copy_button: HoverButton = HoverButton(
-        master=frame,
+        master=main_frame,
         text="Copy File",
         command=copy_file,
         width=button_size_x,
@@ -50,7 +50,7 @@ def main():
 
     
     move_button: HoverButton = HoverButton(
-        master=frame,
+        master=main_frame,
         text="Move File",
         command=move_file,
         width=button_size_x,
@@ -60,7 +60,7 @@ def main():
 
     
     rename_button: HoverButton = HoverButton(
-        master=frame,
+        master=main_frame,
         text="Rename File",
         command=rename_file,
         width=button_size_x,
@@ -70,7 +70,7 @@ def main():
 
     
     delete_button: HoverButton = HoverButton(
-        master=frame,
+        master=main_frame,
         text="Delete File",
         command=delete_file,
         width=button_size_x,
@@ -79,7 +79,7 @@ def main():
     delete_button.pack()
 
     # Mainloop
-    wn.mainloop()
+    root.mainloop()
 
 
 # Button Functions: Commands

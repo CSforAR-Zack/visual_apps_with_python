@@ -12,11 +12,14 @@ def main():
     root: tk.Tk = tk.Tk()
     root.title("Database and Visual")
 
+    font: tuple = ("Arial", 18)
+
     # Select Month
     month_label: tk.Label = tk.Label(
         root,
         text="Select Month:",
         anchor="w",
+        font=font,
     )
     month_label.pack(expand=True, fill="both", padx=5, pady=5)
 
@@ -35,6 +38,7 @@ def main():
         values=months,
         state="readonly",
         command=graph_command,
+        font=font,
     )
 
     month_spinbox.pack(expand=True, fill="both", padx=5, pady=5)

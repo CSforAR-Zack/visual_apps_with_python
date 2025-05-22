@@ -12,14 +12,12 @@ def main():
         "flag_text": "limegreen"
     }
 
+    root: tk.Tk = tk.Tk()
+    root.title("Capture the Flag")
+    root.geometry("700x150")
+    root.configure(bg=colors["bg"])
 
-    wn: tk.Tk = tk.Tk()
-    wn.title("Capture the Flag")
-    wn.geometry("700x150")
-    wn.configure(bg=colors["bg"])
-
-
-    top_frame: tk.Frame = tk.Frame(wn)
+    top_frame: tk.Frame = tk.Frame(root)
     top_frame.pack(
         side="top",
         anchor="w",
@@ -46,7 +44,7 @@ def main():
     flag_value_label.pack(side="left")
 
 
-    bottom_frame: tk.Frame = tk.Frame(wn)
+    bottom_frame: tk.Frame = tk.Frame(root)
     bottom_frame.pack(
         side="bottom",
         fill="both",
@@ -62,7 +60,7 @@ def main():
     )
     search_button.pack(fill="both")
 
-    wn.mainloop()
+    root.mainloop()
 
 
 def find_flag(result_label: tk.Label) -> None:

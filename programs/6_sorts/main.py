@@ -13,18 +13,18 @@ def main():
     speed: float = .05
 
     # Set up window
-    wn: tk.Tk = tk.Tk()
-    wn.title('Visual Sort')
-    wn.config(bg=Color.BACKGROUND)
+    root: tk.Tk = tk.Tk()
+    root.title('Visual Sort')
+    root.config(bg=Color.BACKGROUND)
 
-    bars: Bars = Bars(wn, spacing, speed)
+    bars: Bars = Bars(root, spacing, speed)
     bars.create_bars(number_of_bars, width, max_height, Color.UNSORTED)
 
     # bars.bubble_sort()
     # bars.selection_sort()
     bars.insertion_sort()
 
-    wn.mainloop()
+    root.mainloop()
 
 
 class Bars:
