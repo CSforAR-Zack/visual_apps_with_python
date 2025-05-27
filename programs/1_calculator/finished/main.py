@@ -21,7 +21,7 @@ def main():
 
     exp_entry.grid(row=0, column=0)
     eq_label.grid(row=0, column=1)
-    result_label.grid(row=0, column=3)
+    result_label.grid(row=1)
     calc_button.grid(row=2)
 
     root.mainloop()
@@ -33,4 +33,5 @@ def calculate(exp_entry: tk.Entry, label_result: tk.Label) -> None:
     label_result["text"] = result
 
 
-main()
+if __name__ == "__main__":
+    main()
