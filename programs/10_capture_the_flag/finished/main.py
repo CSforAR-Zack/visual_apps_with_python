@@ -81,4 +81,5 @@ def find_flag(result_label: tk.Label) -> None:
         result_label.config(text="No Flag Found!")
 
 
-main()
+if __name__ == "__main__":
+    main()

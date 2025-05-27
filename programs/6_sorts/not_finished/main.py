@@ -20,9 +20,9 @@ def main():
     bars: Bars = Bars(root, spacing, speed)
     bars.create_bars(number_of_bars, width, max_height, Color.UNSORTED)
 
-    # bars.bubble_sort()
+    bars.bubble_sort()
     # bars.selection_sort()
-    bars.insertion_sort()
+    # bars.insertion_sort()
 
     root.mainloop()
 
@@ -90,31 +90,22 @@ class Bars:
         for k in range((len(self.bars))):
             best = k
             for q in range(k, len(self.bars)):
-                self.bars[q].color(Color.HIGHLIGHT)
                 self.update_bars()
                 if self.bars[q] < self.bars[best]:
-                    self.bars[best].color(Color.UNSORTED)
-                    self.bars[q].color(Color.BEST)
                     best = q
-                else:
-                    self.bars[q].color(Color.UNSORTED)
             self.swap_bars(k, best)
-            self.bars[k].color(Color.SORTED)
             self.update_bars()
         self.update_bars()
 
     def insertion_sort(self) -> None:
         """Sort the bars using the insertion sort algorithm."""
 
-        self.bars[0].color(Color.SORTED)
         for j in range(1, len(self.bars)):
             k: int = j - 1
-            self.bars[j].color(Color.HIGHLIGHT)
             while k >= 0 and self.bars[k] > self.bars[k+1]:
                 self.swap_bars(k, k+1)
                 k -= 1
                 self.update_bars()
-            self.bars[k+1].color(Color.SORTED)
             self.update_bars()
 
 

@@ -10,7 +10,7 @@ def main():
     width: int = 10
     max_height: int = 500
     spacing: int = 1
-    speed: float = .05
+    speed: float = .01
 
     # Set up window
     root: tk.Tk = tk.Tk()
@@ -22,6 +22,7 @@ def main():
 
     # bars.bubble_sort()
     bars.selection_sort()
+    # bars.selection_sort_done()
     # bars.insertion_sort()
 
     root.mainloop()
@@ -45,9 +46,8 @@ class Bars:
         color: str,
     ) -> None:
         """Create bars using tk.Frames with different heights"""
-
-        for _ in range(number_of_bars):
-            height: int = randint(1, max_height)
+        heights: list = [23, 177, 174, 3, 354, 273, 158, 410, 84, 379, 213, 331, 435, 369, 114, 28, 38, 76, 353, 371, 476, 240, 169, 114, 276, 92, 257, 124, 192, 143, 227, 444, 175, 187, 99, 4, 15, 229, 295, 241]
+        for height in heights:
             bar: Bar = Bar(height, width, color, self.wn)
             self.bars.append(bar)
         self.pack_bars()
@@ -90,14 +90,39 @@ class Bars:
         for k in range((len(self.bars))):
             best = k
             for q in range(k, len(self.bars)):
+                self.update_bars()
+                if best == 14 and k == 9 and q ==28:
+                    break
+                if self.bars[q] < self.bars[best]:
+                    best = q
+                    if k == 5 and self.bars[best].height == 28:
+                        break
+            
+            if best == 14 and k == 9 and q ==28:
+                break
+            self.swap_bars(k, best)
+            self.update_bars()
+        self.update_bars()
+
+    def selection_sort_done(self) -> None:
+        """Sort the bars using the insertion sort algorithm."""
+
+        for k in range((len(self.bars))):
+            best = k
+            for q in range(k, len(self.bars)):
                 self.bars[q].color(Color.HIGHLIGHT)
                 self.update_bars()
+                if best == 14 and k == 9 and q ==28:
+                    break
                 if self.bars[q] < self.bars[best]:
                     self.bars[best].color(Color.UNSORTED)
                     self.bars[q].color(Color.BEST)
                     best = q
                 else:
                     self.bars[q].color(Color.UNSORTED)
+            
+            if best == 14 and k == 9 and q ==28:
+                break
             self.swap_bars(k, best)
             self.bars[k].color(Color.SORTED)
             self.update_bars()
@@ -106,15 +131,12 @@ class Bars:
     def insertion_sort(self) -> None:
         """Sort the bars using the insertion sort algorithm."""
 
-        self.bars[0].color(Color.SORTED)
         for j in range(1, len(self.bars)):
             k: int = j - 1
-            self.bars[j].color(Color.HIGHLIGHT)
             while k >= 0 and self.bars[k] > self.bars[k+1]:
                 self.swap_bars(k, k+1)
                 k -= 1
                 self.update_bars()
-            self.bars[k+1].color(Color.SORTED)
             self.update_bars()
 
 

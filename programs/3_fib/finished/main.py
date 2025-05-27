@@ -5,9 +5,9 @@ from time import sleep
 def main():
     """Main function to run the Fibonacci program"""
 
-    fib_linear()
+    # fib_linear()
     # fib_recursive()
-    # fib_braid()
+    fib_braid()
 
 
 # Fibonacci using linear pattern
