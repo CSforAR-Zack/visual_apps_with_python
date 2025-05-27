@@ -73,20 +73,20 @@ def main():
     wn.mainloop()
 
 
-def add_to_file(entry_text: tk.Text):
+def add_to_file(entry_text: tk.Text) -> None:
     print("Adding to file....DELETE THIS")
     # Add the text from entry_text to the memo.txt file.
     # Use with open() when working with files.
     # Reference "useful methods" in the assignment guidelines.
 
 
-def clear_screen(entry_text: tk.Text):
+def clear_screen(entry_text: tk.Text) -> None:
     print("Clearing screen....DELETE THIS")
     # Clear the entry_text widget.
     # Reference "useful methods" in the assignment guidelines.
 
 
-def clear_file(entry_text: tk.Text):
+def clear_file(entry_text: tk.Text) -> None:
     print("Clearing file....DELETE THIS")
     # Clear the memo.txt file and update the entry_text widget.
     # Use with open() when working with files.

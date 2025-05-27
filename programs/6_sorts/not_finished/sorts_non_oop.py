@@ -30,9 +30,9 @@ def main():
         root, number_of_bars, width, max_height, colors['unsorted'], x_pad, y_pad
     )
 
-    # bubble_sort(wn, bars, colors, x_pad, y_pad, speed)
-    selection_sort(root, bars, colors, x_pad, y_pad, speed)
-    # insertion_sort(wn, bars, colors, x_pad, y_pad, speed)
+    bubble_sort(root, bars, colors, x_pad, y_pad, speed)
+    # selection_sort(root, bars, colors, x_pad, y_pad, speed)
+    # insertion_sort(root, bars, colors, x_pad, y_pad, speed)
 
     root.mainloop()
 
@@ -93,16 +93,10 @@ def selection_sort(
     for k in range(len(bars)):
         best = k
         for q in range(k, len(bars)):
-            bars[q].config(bg=colors['highlight']) #### Color
             update_bars(wn, bars, x_pad, y_pad, speed)
             if bars[q].winfo_reqheight() <= bars[best].winfo_reqheight():
-                bars[best].config(bg=colors['unsorted']) #### Color
-                bars[q].config(bg=colors['best']) #### Color
-                best = q
-            else:
-                bars[q].config(bg=colors['unsorted']) #### Color        
+                best = q      
         swap_bars(bars, k, best)
-        bars[k].config(bg=colors['sorted']) #### Color  
         update_bars(wn, bars, x_pad, y_pad, speed)  
     update_bars(wn, bars, x_pad, y_pad, speed)
 
@@ -117,15 +111,12 @@ def insertion_sort(
 ) -> None:
     """Sort bars by height using insertion sort algorithm"""
 
-    bars[0].config(bg=colors['sorted'])
     for j in range(1, len(bars)):
         k = j - 1
-        bars[j].config(bg=colors['highlight'])
         while k >= 0 and bars[k].winfo_reqheight() > bars[k + 1].winfo_reqheight():
             swap_bars(bars, k, k + 1)
             k -= 1
             update_bars(wn, bars, x_pad, y_pad, speed)
-        bars[k + 1].config(bg=colors['sorted'])
         update_bars(wn, bars, x_pad, y_pad, speed)
 
 

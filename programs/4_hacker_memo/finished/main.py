@@ -73,7 +73,7 @@ def main():
     root.mainloop()
 
 
-def add_to_file(entry_text: tk.Text):
+def add_to_file(entry_text: tk.Text) -> None:
     """Add the text from the entry box to the memo file."""
 
     with open("memo.txt", "a") as f:
@@ -81,13 +81,13 @@ def add_to_file(entry_text: tk.Text):
     entry_text.delete("1.0", "end")
 
 
-def clear_screen(entry_text: tk.Text):
+def clear_screen(entry_text: tk.Text) -> None:
     """Clear the text from the entry box."""
 
     entry_text.delete("1.0", "end")
 
 
-def clear_file(entry_text: tk.Text):
+def clear_file(entry_text: tk.Text) -> None:
     """Clear the memo file."""
     
     with open("memo.txt", "w") as f:
