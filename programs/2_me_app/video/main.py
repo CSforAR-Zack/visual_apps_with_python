@@ -2,7 +2,7 @@ import tkinter as tk
 
 
 def main():
-    app = MyApp()
+    app: MyApp = MyApp()
     app.mainloop()
 
 
@@ -20,8 +20,8 @@ class MyApp(tk.Tk):
 
     def create_main_frame(self) -> None:
         """Create the main frame."""
-        
-        self.main = tk.Frame(self, bg=Color.COLOR1)
+
+        self.main: tk.Frame = tk.Frame(self, bg=Color.COLOR1)
         self.main.pack(fill=tk.BOTH, expand=True)
 
     def create_content_frame(self) -> None:
@@ -33,7 +33,7 @@ class MyApp(tk.Tk):
     def create_navigator_frame(self) -> None:
         """Create the navigator frame."""
 
-        self.navigator: tk.Frame = tk.Frame(self.main, bg=Color.COLOR1)
+        self.navigator: tk.Frame = tk.Frame(self.main, bg=Color.COLOR3)
         self.navigator.pack(fill=tk.X, side=tk.BOTTOM)
 
         self.create_buttons()
@@ -42,28 +42,29 @@ class MyApp(tk.Tk):
         """Create buttons for the navigator frame."""
 
         about_button: tk.Button = tk.Button(
-            self.navigator,
-            text="About",
-            command=self.about_page,
-            bg=Color.COLOR2,
-            fg=Color.COLOR3,
+           self.navigator,
+           text="About",
+           command=self.about_page,
+           bg=Color.COLOR2,
+           fg=Color.COLOR3,
         )
         about_button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         hobby_button: tk.Button = tk.Button(
-            self.navigator,
-            text="Hobby",
-            command=self.hobby_page,
-            bg=Color.COLOR2,
-            fg=Color.COLOR3,
+           self.navigator,
+           text="Hobby",
+           command=self.hobby_page,
+           bg=Color.COLOR2,
+           fg=Color.COLOR3,
         )
         hobby_button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
         work_button: tk.Button = tk.Button(
-            self.navigator,
-            text="Work",
-            bg=Color.COLOR2,
-            fg=Color.COLOR3,
+           self.navigator,
+           text="Work",
+           command=self.work_page,
+           bg=Color.COLOR2,
+           fg=Color.COLOR3,
         )
         work_button.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
@@ -87,25 +88,26 @@ class MyApp(tk.Tk):
         )
         title.pack()
 
-        self_image: tk.PhotoImage = tk.PhotoImage(master=self.content, file="self.png")
-        self_image = self_image.subsample(2)
-        self_label: tk.Label = tk.Label(
+        my_image: tk.PhotoImage = tk.PhotoImage(
+            master=self.content, file="images/self.png"
+        )
+        my_image = my_image.subsample(2)
+        my_label: tk.Label = tk.Label(
             self.content,
-            image=self_image,
+            image=my_image,
             background=Color.COLOR1,
         )
-        self_label.pack()  
-        self_label.image = self_image
+        my_label.pack()
+        my_label.image = my_image
 
         content: tk.Label = tk.Label(
             self.content,
             text="This is me! Let's get to know each other!",
             background=Color.COLOR1,
             foreground=Color.COLOR3,
-            font=Font.TEXT,
+            font=Font.CONTENT,
         )
         content.pack()
-
 
     def hobby_page(self) -> None:
         """Display the hobby page."""
@@ -121,27 +123,64 @@ class MyApp(tk.Tk):
         )
         title.pack()
 
-        self_image: tk.PhotoImage = tk.PhotoImage(master=self.content, file="hobby.png")
-        self_image = self_image.subsample(2)
-        self_label: tk.Label = tk.Label(
+        my_image: tk.PhotoImage = tk.PhotoImage(
+            master=self.content, file="images/hobby.png"
+        )
+        my_image = my_image.subsample(2)
+        my_label: tk.Label = tk.Label(
             self.content,
-            image=self_image,
+            image=my_image,
             background=Color.COLOR1,
         )
-        self_label.pack()        
-        self_label.image = self_image
+        my_label.pack()
+        my_label.image = my_image
 
         content: tk.Label = tk.Label(
             self.content,
             text="I like to play games! Let's play together!",
             background=Color.COLOR1,
             foreground=Color.COLOR3,
-            font=Font.TEXT,
+            font=Font.CONTENT,
+        )
+        content.pack()
+
+    def work_page(self) -> None:
+        """Display the about page."""
+
+        self.clear_frame(self.content)
+
+        title: tk.Label = tk.Label(
+            self.content,
+            text="Robot High!",
+            background=Color.COLOR1,
+            foreground=Color.COLOR3,
+            font=Font.TITLE,
+        )
+        title.pack()
+
+        my_image: tk.PhotoImage = tk.PhotoImage(
+            master=self.content, file="images/work.png"
+        )
+        my_image = my_image.subsample(2)
+        my_label: tk.Label = tk.Label(
+            self.content,
+            image=my_image,
+            background=Color.COLOR1,
+        )
+        my_label.pack()
+        my_label.image = my_image
+
+        content: tk.Label = tk.Label(
+            self.content,
+            text="This is my work! Let's work together!",
+            background=Color.COLOR1,
+            foreground=Color.COLOR3,
+            font=Font.CONTENT,
         )
         content.pack()
 
 
-# Enums
+#Enums
 class Color:
     """Color class to hold color values."""
 
@@ -153,8 +192,8 @@ class Color:
 class Font:
     """Font class to hold font values."""
 
-    TITLE: str = ("Arial", 24, "bold")
-    TEXT: str = ("Arial", 12, "normal")
+    TITLE: tuple = ("Arial", 24, "bold")
+    CONTENT: tuple = ("Arial", 12, "normal")
 
 
 if __name__ == "__main__":
