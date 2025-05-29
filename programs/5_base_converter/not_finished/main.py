@@ -6,16 +6,17 @@ def main():
     root: tk.Tk = tk.Tk()
     root.title("Base Converter")
     root.configure(bg=Colors.COLOR1)
-    font_style: Font = Font(family="Consolas", size=20)
+    font_style: Font = Font(family="Consolas", size=30)
 
     number_entry: tk.Entry = tk.Entry(
         root,
         font=font_style,
         bg=Colors.COLOR2,
         fg=Colors.TEXT,
+        insertbackground=Colors.TEXT,
     )
 
-    choices: tuple = ("Binary", "Octal", "Decimal", "Hexidecimal")
+    choices: tuple = ("Binary", "Octal", "Decimal", "Hexadecimal")
     base_input_sbox: tk.Spinbox = tk.Spinbox(
         root,
         font=font_style,
@@ -66,15 +67,14 @@ def main():
     logo = logo.subsample(2)
     logo_label: tk.Label = tk.Label(root, image=logo, bg=Colors.COLOR1)
 
-    # Packing area
     px: int = 10
     py: int = 5
-    number_entry.pack(fill="x", padx=px, pady=py)
-    base_input_sbox.pack(fill="x", padx=px, pady=py)
-    base_output_sbox.pack(fill="x", padx=px, pady=py)
-    convert_button.pack(fill="x", padx=px, pady=py)
-    result_label.pack(fill="x", padx=px, pady=py)
-    logo_label.pack(fill="x", padx=px, pady=py)
+    number_entry.pack(fill="x", padx=10, pady=5)
+    base_input_sbox.pack(fill="x", padx=10, pady=5)
+    base_output_sbox.pack(fill="x", padx=10, pady=5)
+    convert_button.pack(fill="x", padx=10, pady=5)
+    result_label.pack(fill="x", padx=10, pady=5)
+    logo_label.pack()
 
     root.mainloop()
 
@@ -89,7 +89,7 @@ class CommandCenter:
         output_base: tk.Spinbox,
         output: tk.Label,
     ) -> None:
-        """Setup a CommandCenter."""
+        """Setup the CommandCenter."""
 
         self.entry: tk.Entry = entry
         self.input_base: tk.Spinbox = input_base
@@ -109,20 +109,19 @@ class CommandCenter:
             number: int = int(number_input, 8)
         elif input_base == "Decimal":
             number: int = int(number_input, 10)
-        elif input_base == "Hexidecimal":
+        elif input_base == "Hexadecimal":
             number: int = int(number_input, 16)
 
-        # Convert decimal number to output base
         if output_base == "Binary":
             number_output: str = bin(number)[2:]
         elif output_base == "Octal":
             number_output: str = oct(number)[2:]
         elif output_base == "Decimal":
             number_output: str = str(number)
-        elif output_base == "Hexidecimal":
-            number_output: str = hex(number)[2:]
+        elif output_base == "Hexadecimal":
+            number_output: str = hex(number)[2:].upper()
 
-        self.output.config(text=number_output)
+        self.output.configure(text=number_output)
 
 
 class Colors:
