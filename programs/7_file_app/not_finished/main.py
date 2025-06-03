@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter.font import Font
+from tkinter import filedialog, messagebox, simpledialog
+import os
+import shutil
 
 
 def main():
@@ -8,34 +11,35 @@ def main():
     button_size_x: int = 40
     button_size_y: int = 3
 
-    # Window Setup
-    wn: tk.Tk = tk.Tk()
-    wn.title("File Manager")
+    # Window setup
+    root: tk.Tk = tk.Tk()
+    root.title("File Manager")
 
     # Fonts
-    label_font: Font = Font(size=30)
+    font: Font = Font(size=30)
 
-    frame: tk.Frame = tk.Frame(
-        wn,
-        bg=Colors.background_color,
+    # Main Frame
+    main_frame: tk.Frame = tk.Frame(
+        root,
+        bg=Color.background_color,
         padx=padding,
         pady=padding,
     )
-    frame.pack()
-
+    main_frame.pack(fill="both", expand=True)
+    
     # Label
     label: tk.Label = tk.Label(
-        frame,
+        main_frame,
         text="File Manager",
-        font=label_font,
-        bg=Colors.background_color,
-        fg=Colors.text_color,
+        bg=Color.background_color,
+        fg=Color.text_color,
+        font=font,
     )
     label.pack()
 
-    # Buttons
+    # Button
     copy_button: HoverButton = HoverButton(
-        master=frame,
+        master=main_frame,
         text="Copy File",
         command=copy_file,
         width=button_size_x,
@@ -43,29 +47,26 @@ def main():
     )
     copy_button.pack()
 
-    
     move_button: HoverButton = HoverButton(
-        master=frame,
+        master=main_frame,
         text="Move File",
         command=move_file,
         width=button_size_x,
         height=button_size_y,
     )
     move_button.pack()
-
     
     rename_button: HoverButton = HoverButton(
-        master=frame,
+        master=main_frame,
         text="Rename File",
         command=rename_file,
         width=button_size_x,
         height=button_size_y,
     )
     rename_button.pack()
-
     
     delete_button: HoverButton = HoverButton(
-        master=frame,
+        master=main_frame,
         text="Delete File",
         command=delete_file,
         width=button_size_x,
@@ -74,14 +75,14 @@ def main():
     delete_button.pack()
 
     # Mainloop
-    wn.mainloop()
+    root.mainloop()
 
 
-# Button Functions: Commands
+# Button Command Functions
 def copy_file() -> None:
     """Make a copy of a file."""
 
-    print("Copying File...") # REMOVE THIS
+    print("Copying file...") # REMOVE THIS
 
     # Ask user for file to copy
     # Get the base name of the file and rename it to "copy_of_{base_name}"
@@ -91,9 +92,9 @@ def copy_file() -> None:
 
 
 def move_file() -> None:
-    """Move a file to a new directory."""
+    """Move a file to a new directory"""
 
-    print("Moving File...") # REMOVE THIS
+    print("Moving file...") # REMOVE THIS
 
     # Ask user for file to move
     # Ask user for destination directory
@@ -104,9 +105,9 @@ def move_file() -> None:
 
 
 def rename_file() -> None:
-    """Rename a file."""
+    """Rename a file to a different name."""
 
-    print("Renaming File...") # REMOVE THIS
+    print("Renaming file...") # REMOVE THIS
 
     # Ask user for file to rename
     # Ask user for new file name
@@ -119,7 +120,7 @@ def rename_file() -> None:
 def delete_file() -> None:
     """Delete a file."""
 
-    print("Deleting File...") # REMOVE THIS
+    print("Deleting file...") # REMOVE THIS
 
     # Ask user for file to delete
     # Confirm with the user if they want to delete the file with a pop-up message
@@ -130,14 +131,15 @@ def delete_file() -> None:
     # Show a message box that the file has been deleted
 
 
+
 # CustomButton
 class HoverButton(tk.Button):
-    """A class to create a button with hover effects."""
+    """A class to create a button with a hover effect."""
 
-    def __init__(self, **kw_args) -> None:
-        super().__init__(**kw_args)
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
 
-        self.config(bg=Colors.base_color, fg=Colors.button_text_base_color)
+        self.config(bg=Color.base_color, fg=Color.button_text_base_color)
         self.bind("<Enter>", self.on_hover)
         self.bind("<Leave>", self.off_hover)
 
@@ -145,27 +147,27 @@ class HoverButton(tk.Button):
         """Change the color of the button when mouse is over it."""
 
         event.widget.config(
-            bg=Colors.hover_color,
-            fg=Colors.button_text_hover_color,
+            bg=Color.hover_color,
+            fg=Color.button_text_hover_color,
         )
 
     def off_hover(self, event: tk.Event) -> None:
         """Change the color of the button when mouse leaves it."""
 
         event.widget.config(
-            bg=Colors.base_color,
-            fg=Colors.button_text_base_color,
+            bg=Color.base_color,
+            fg=Color.button_text_base_color,
         )
 
 
-# Color
-class Colors:
+# Colors
+class Color:
     """A class to store colors for the GUI."""
 
     background_color: str = "black"
     text_color: str = "white"
 
-    base_color: str = "gray"
+    base_color: str = "grey"
     hover_color: str = "cyan"
     button_text_base_color: str = "white"
     button_text_hover_color: str = "black"
