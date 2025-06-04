@@ -17,7 +17,7 @@ def main():
     units: str = "standard"
 
     requests_url_parts: list = [
-        "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?",
+        "https://www.ncei.noaa.gov/cdo-web/api/v2/data?",
         f"datasetid={dataset_id}&",
         f"datatypeid={datatype_ids}&",
         f"stationid={station_id}&",
