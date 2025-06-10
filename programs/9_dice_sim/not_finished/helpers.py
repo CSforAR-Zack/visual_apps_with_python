@@ -6,15 +6,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from dice import Die
 
 
-class Color:
-    """A class to hold color codes for the simulation."""
-
-    color1: "Color" = "#00FFFF"
-    color2: "Color" = "#00AAAA"
-    color3: "Color" = "#005555"
-    color4: "Color" = "#000000"
-
-
 class Simulator:
     """Class to roll two dice n times and
     create a figure from the results.
@@ -50,16 +41,14 @@ class Simulator:
             
             x_values: list = list(counts.keys())
             y_values: list = list(counts.values())
-            self.ax.bar(x_values, y_values, color=Color.color1, edgecolor=Color.color2)
-            self.ax.set_title(
-                f"D{die1.sides} and D{die2.sides} - {number_of_rolls} Times", fontsize=16, color=Color.color1
-            )
+            self.ax.bar(x_values, y_values)
+            self.ax.set_title(f"D{die1.sides} and D{die2.sides} - {number_of_rolls} Times")
 
         except ValueError:
-            self.ax.set_title("Invalid Input", fontsize=16, color=Color.color1)
+            self.ax.set_title("Invalid Input")
 
-        self.ax.set_xlabel("Sum of Two Dice", fontsize=14, color=Color.color1)
-        self.ax.set_ylabel("Frequency of Sum", fontsize=14, color=Color.color1)
+        self.ax.set_xlabel("Sum of Two Dice")
+        self.ax.set_ylabel("Frequency of Sum")
         self.canvas.draw()
 
     def roll_dice(self, number_of_rolls: int, die1: Die, die2: Die) -> dict:
