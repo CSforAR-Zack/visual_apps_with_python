@@ -6,9 +6,9 @@ from config import TodoItem
 class TodoModel:
     """Handles the SQLite database connection and operations."""
     
-    def __init__(self):
+    def __init__(self, db_name: str = "todos.db"):
         # Connect to the DB (creates the file if it doesn't exist)
-        self.conn = sqlite3.connect("todos.db", check_same_thread=False)
+        self.conn = sqlite3.connect(db_name, check_same_thread=False)
         self._create_table()
         
         # Observer pattern setup
