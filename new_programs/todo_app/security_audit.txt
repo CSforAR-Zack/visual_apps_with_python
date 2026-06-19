@@ -1,0 +1,14 @@
+Introduce the students to Bandit, the industry-standard static security analyzer designed specifically for Python.
+It scans Python code to find common security issues.
+
+Install it: Have the students run this in their terminal:
+
+Bash
+pip install bandit
+Run it: Have them scan their entire project folder by running:
+
+Bash
+bandit -r .
+
+The Result: Bandit will output a report card grading the security of model.py, view.py, and controller.py.
+Because you wrote secure code with parameterized SQL queries, Bandit should give them a passing grade, providing a highly rewarding feedback loop!

@@ -4,15 +4,27 @@ from config import TodoItem
 
 
 class TodoModel:
-    """Handles the SQLite database connection and operations."""
+    """Handles the SQLite database connection using a Singleton pattern."""
+    
+    _instance = None 
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(TodoModel, cls).__new__(cls)            
+            cls._instance._is_initialized = False 
+            
+        return cls._instance
     
     def __init__(self, db_name: str = "todos.db"):
-        # Connect to the DB (creates the file if it doesn't exist)
+        if self._is_initialized:
+            return
+            
         self.conn = sqlite3.connect(db_name, check_same_thread=False)
         self._create_table()
         
-        # Observer pattern setup
         self._observers: List[Callable[[List[TodoItem]], None]] = []
+        
+        self._is_initialized = True
 
     def _create_table(self):
         with self.conn:
