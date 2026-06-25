@@ -32,8 +32,8 @@ class AppView(tk.Tk):
                 # Optional: Subsample makes it smaller (e.g., half size). Adjust as needed!
                 self.logo_image = self.logo_image.subsample(Theme.LOGO_SUBSAMPLE) 
                 
-                logo_label = tk.Label(self, image=self.logo_image, bg=Theme.BG)
-                logo_label.pack(pady=(20, 0)) # Add some padding at the top
+                self.logo_label = tk.Label(self, image=self.logo_image, bg=Theme.BG)
+                self.logo_label.pack(pady=(20, 0)) # Add some padding at the top
             except tk.TclError:
                 print("Warning: Could not load logo image format. (Use .png or .gif)")
         
@@ -41,22 +41,37 @@ class AppView(tk.Tk):
         tk.Label(self, text="My Tasks", bg=Theme.BG, fg=Theme.FG, font=Theme.FONT_TITLE).pack(pady=20)
 
         # Input Frame
-        input_frame = tk.Frame(self, bg=Theme.BG)
-        input_frame.pack(fill=tk.X, padx=20, pady=10)
+        self.input_frame = tk.Frame(self, bg=Theme.BG)
+        self.input_frame.pack(fill=tk.X, padx=20, pady=10)
 
         self.entry_var = tk.StringVar()
-        entry = tk.Entry(input_frame, textvariable=self.entry_var, font=Theme.FONT_TEXT, width=25)
-        entry.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10))
+        self.entry = tk.Entry(
+            self.input_frame,
+            textvariable=self.entry_var,
+            font=Theme.FONT_TEXT,
+            width=25,
+        )
+        self.entry.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10))
 
-        add_btn = tk.Button(input_frame, text="Add Task", bg=Theme.ACCENT, fg=Theme.FG, command=self._on_add_click)
-        add_btn.pack(side=tk.RIGHT)
+        self.add_btn = tk.Button(
+            self.input_frame,
+            text="Add Task",
+            bg=Theme.ACCENT,
+            fg=Theme.FG,
+            command=self._on_add_click,
+        )
+        self.add_btn.pack(side=tk.RIGHT)
 
         # List Frame (Where the To-Dos will live)
         self.list_frame = tk.Frame(self, bg=Theme.LIST_BG)
         self.list_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
 
     def bind_commands(
-            self, add_cmd: Callable, toggle_cmd: Callable, delete_cmd: Callable, edit_cmd: Callable
+            self,
+            add_cmd: Callable,
+            toggle_cmd: Callable,
+            delete_cmd: Callable,
+            edit_cmd: Callable,
     ) -> None:
         """Allows the controller to wire up the logic."""
         self.add_cmd = add_cmd
@@ -94,14 +109,14 @@ class AppView(tk.Tk):
 
         # Draw the new list
         for todo in todos:
-            row_frame = tk.Frame(self.list_frame, bg=Theme.LIST_BG)
-            row_frame.pack(fill=tk.X, pady=2)
+            row = tk.Frame(self.list_frame, bg=Theme.LIST_BG)
+            row.pack(fill=tk.X, pady=2)
 
             var = tk.BooleanVar(value=todo.is_completed)
             
             # Draw a checkbox for each item
             chk = tk.Checkbutton(
-                row_frame,
+                row,
                 text=todo.task,
                 variable=var,
                 bg=Theme.LIST_BG,
@@ -110,35 +125,44 @@ class AppView(tk.Tk):
                 font=Theme.FONT_TEXT,
                 anchor="w",
                 # Pass the task ID and the new boolean state to the Controller
-                command=lambda t_id=todo.id, v=var: self.toggle_cmd(t_id, v.get())
+                # We use a lambda to capture the current todo's ID and the checkbox's variable
+                # We use t_id and v as default arguments to avoid late binding issues in the loop
+                command=lambda t_id=todo.id, v=var: self.toggle_cmd(t_id, v.get()),
             )
             
             # Strike-through effect if completed
             if todo.is_completed:
-                chk.configure(fg="#888888", font=(Theme.FONT_TEXT[0], Theme.FONT_TEXT[1], "overstrike"))
+                chk.configure(
+                    fg="#888888",
+                    font=(Theme.FONT_TEXT[0], Theme.FONT_TEXT[1], "overstrike"),
+                )
                 
             chk.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
             del_btn = tk.Button(
-                row_frame,
+                row,
                 text="X", 
                 bg=Theme.DANGER, 
                 fg=Theme.FG, 
-                font=("Arial", 10, "bold"),
+                font=Theme.FONT_TEXT,
                 borderwidth=0,
                 # Pass the specific task ID back to the Controller
+                # We use a lambda to capture the current todo's ID
+                # We must create t_id as a default argument to avoid late binding issues in the loop
                 command=lambda t_id=todo.id: self.delete_cmd(t_id) 
             )
             del_btn.pack(side=tk.RIGHT, padx=5)
 
             edit_btn = tk.Button(
-                row_frame,
+                row,
                 text="Edit", 
                 bg=Theme.EDIT, 
                 fg=Theme.FG, 
-                font=("Arial", 10),
+                font=Theme.FONT_TEXT,
                 borderwidth=0,
                 # Open the edit dialog with the current task text
+                # We have to use a lambda to capture the current todo's ID and text
+                # We must create t_id and t_text as default arguments to avoid late binding issues in the loop
                 command=lambda t_id=todo.id, t_text=todo.task: self._prompt_edit(t_id, t_text)
             )
             edit_btn.pack(side=tk.RIGHT, padx=5)

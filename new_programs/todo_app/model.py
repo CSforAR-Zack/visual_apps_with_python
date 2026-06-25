@@ -6,6 +6,7 @@ from config import TodoItem
 class TodoModel:
     """Handles the SQLite database connection using a Singleton pattern."""
     
+    # This is a class-level variable to hold the single instance of TodoModel
     _instance = None 
 
     def __new__(cls, *args, **kwargs):
@@ -16,6 +17,7 @@ class TodoModel:
         return cls._instance
     
     def __init__(self, db_name: str = "todos.db"):
+        # Check if the instance has already been initialized to avoid re-initialization
         if self._is_initialized:
             return
             
@@ -24,7 +26,7 @@ class TodoModel:
         
         self._observers: List[Callable[[List[TodoItem]], None]] = []
         
-        self._is_initialized = True
+        self._is_initialized = True # Mark the instance as initialized
 
     def _create_table(self):
         with self.conn:
