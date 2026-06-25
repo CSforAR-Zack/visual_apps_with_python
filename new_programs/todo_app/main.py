@@ -8,13 +8,7 @@ def main():
     view = AppView()
     controller = AppController(model, view)
     
-    # 1. Observer Pattern: Tell Model to redraw the View when data changes
-    model.add_observer(view.display_todos)
-    
-    # 2. Trigger the first database fetch to populate the screen on startup
-    model.fetch_all()
-    
-    # 3. Start App
+    controller.refresh_view()  # Load initial data into the view   
     view.mainloop()
 
 

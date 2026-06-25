@@ -1,6 +1,5 @@
 import json
 from pathlib import Path
-from dataclasses import dataclass
 
 
 _config_path = Path(__file__).parent / "config.json"
@@ -25,11 +24,3 @@ class Theme:
     
     FONT_TITLE = tuple(_config_data["fonts"]["title"])
     FONT_TEXT = tuple(_config_data["fonts"]["text"])
-
-
-@dataclass
-class TodoItem:
-    """A data container representing a single row in the database."""
-    id: int
-    task: str
-    is_completed: bool

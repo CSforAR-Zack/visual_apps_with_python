@@ -1,6 +1,5 @@
 import sqlite3
-from typing import List, Callable
-from config import TodoItem
+from dataclasses import dataclass
 
 
 class TodoModel:
@@ -22,10 +21,7 @@ class TodoModel:
             return
             
         self.conn = sqlite3.connect(db_name, check_same_thread=False)
-        self._create_table()
-        
-        self._observers: List[Callable[[List[TodoItem]], None]] = []
-        
+        self._create_table()        
         self._is_initialized = True # Mark the instance as initialized
 
     def _create_table(self):
@@ -38,9 +34,6 @@ class TodoModel:
                 )
             """)
 
-    def add_observer(self, callback: Callable[[List[TodoItem]], None]) -> None:
-        self._observers.append(callback)
-
     def fetch_all(self) -> None:
         """Grabs all todos from the database and broadcasts them."""
         cursor = self.conn.cursor()
@@ -49,32 +42,32 @@ class TodoModel:
         
         # Convert raw SQL tuples into nice TodoItem objects
         todos = [TodoItem(id=row[0], task=row[1], is_completed=bool(row[2])) for row in rows]
-        self._notify_observers(todos)
+        return todos
 
     def add_task(self, task_text: str) -> None:
         """Inserts a new task and triggers an update."""
         with self.conn:
             self.conn.execute("INSERT INTO todos (task, is_completed) VALUES (?, 0)", (task_text,))
-        self.fetch_all() # Update the UI
 
     def toggle_task(self, task_id: int, is_completed: bool) -> None:
         """Updates a task's status and triggers an update."""
         with self.conn:
             self.conn.execute("UPDATE todos SET is_completed = ? WHERE id = ?", (int(is_completed), task_id))
-        self.fetch_all() # Update the UI
 
     def delete_task(self, task_id: int) -> None:
         """Deletes a task from the database and triggers an update."""
         with self.conn:
             self.conn.execute("DELETE FROM todos WHERE id = ?", (task_id,))
-        self.fetch_all() # Update the UI
 
     def edit_task(self, task_id: int, new_text: str) -> None:
         """Updates a task's text and triggers an update."""
         with self.conn:
             self.conn.execute("UPDATE todos SET task = ? WHERE id = ?", (new_text, task_id))
-        self.fetch_all() # Update the UI
 
-    def _notify_observers(self, todos: List[TodoItem]) -> None:
-        for observer in self._observers:
-            observer(todos)
+
+@dataclass
+class TodoItem:
+    """A data container representing a single row in the database."""
+    id: int
+    task: str
+    is_completed: bool

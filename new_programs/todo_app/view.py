@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import simpledialog
-from typing import List, Callable
-from config import Theme, TodoItem
+from typing import Callable
+from config import Theme
 from pathlib import Path
 
 
@@ -101,7 +101,7 @@ class AppView(tk.Tk):
             self.add_cmd(task_text)
             self.entry_var.set("") # Clear entry after adding
 
-    def display_todos(self, todos: List[TodoItem]) -> None:
+    def display_todos(self, todos: list) -> None:
         """Wipes the current list and redraws it based on DB data."""
         # Clear existing widgets
         for widget in self.list_frame.winfo_children():
@@ -109,60 +109,85 @@ class AppView(tk.Tk):
 
         # Draw the new list
         for todo in todos:
-            row = tk.Frame(self.list_frame, bg=Theme.LIST_BG)
-            row.pack(fill=tk.X, pady=2)
+            TaskRow(
+                parent=self.list_frame,
+                todo=todo,
+                toggle_cb=self.toggle_cmd,
+                delete_cb=self.delete_cmd,
+                edit_cb=self._prompt_edit,
+            )
 
-            var = tk.BooleanVar(value=todo.is_completed)
-            
-            # Draw a checkbox for each item
-            chk = tk.Checkbutton(
-                row,
-                text=todo.task,
-                variable=var,
-                bg=Theme.LIST_BG,
-                fg=Theme.FG,
-                selectcolor=Theme.BG,
-                font=Theme.FONT_TEXT,
-                anchor="w",
-                # Pass the task ID and the new boolean state to the Controller
-                # We use a lambda to capture the current todo's ID and the checkbox's variable
-                # We use t_id and v as default arguments to avoid late binding issues in the loop
-                command=lambda t_id=todo.id, v=var: self.toggle_cmd(t_id, v.get()),
+
+class TaskRow(tk.Frame):
+    """A custom widget representing a single task in the UI."""
+    
+    def __init__(self, parent, todo, toggle_cb, delete_cb, edit_cb):
+        super().__init__(parent, bg=Theme.LIST_BG)
+        self.todo = todo
+        
+        # Callbacks passed down from AppView
+        self.toggle_cb = toggle_cb
+        self.delete_cb = delete_cb
+        self.edit_cb = edit_cb
+
+        self._setup_ui()
+
+    def _setup_ui(self):
+        self.pack(fill=tk.X, pady=2)
+
+        self.var = tk.BooleanVar(value=self.todo.is_completed)
+        
+        # Checkbox
+        self.chk = tk.Checkbutton(
+            self,
+            text=self.todo.task,
+            variable=self.var,
+            bg=Theme.LIST_BG,
+            fg=Theme.FG,
+            selectcolor=Theme.BG,
+            font=Theme.FONT_TEXT,
+            anchor="w",
+            command=self._on_toggle,
+        )
+        
+        if self.todo.is_completed:
+            self.chk.configure(
+                fg="#888888",
+                font=(Theme.FONT_TEXT[0], Theme.FONT_TEXT[1], "overstrike"),
             )
             
-            # Strike-through effect if completed
-            if todo.is_completed:
-                chk.configure(
-                    fg="#888888",
-                    font=(Theme.FONT_TEXT[0], Theme.FONT_TEXT[1], "overstrike"),
-                )
-                
-            chk.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        self.chk.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-            del_btn = tk.Button(
-                row,
-                text="X", 
-                bg=Theme.DANGER, 
-                fg=Theme.FG, 
-                font=Theme.FONT_TEXT,
-                borderwidth=0,
-                # Pass the specific task ID back to the Controller
-                # We use a lambda to capture the current todo's ID
-                # We must create t_id as a default argument to avoid late binding issues in the loop
-                command=lambda t_id=todo.id: self.delete_cmd(t_id) 
-            )
-            del_btn.pack(side=tk.RIGHT, padx=5)
+        # Delete Button
+        del_btn = tk.Button(
+            self,
+            text="X",
+            bg=Theme.DANGER,
+            fg=Theme.FG,
+            font=Theme.FONT_TEXT,
+            borderwidth=0,
+            command=self._on_delete,
+        )
+        del_btn.pack(side=tk.RIGHT, padx=5)
 
-            edit_btn = tk.Button(
-                row,
-                text="Edit", 
-                bg=Theme.EDIT, 
-                fg=Theme.FG, 
-                font=Theme.FONT_TEXT,
-                borderwidth=0,
-                # Open the edit dialog with the current task text
-                # We have to use a lambda to capture the current todo's ID and text
-                # We must create t_id and t_text as default arguments to avoid late binding issues in the loop
-                command=lambda t_id=todo.id, t_text=todo.task: self._prompt_edit(t_id, t_text)
-            )
-            edit_btn.pack(side=tk.RIGHT, padx=5)
+        # Edit Button
+        edit_btn = tk.Button(
+            self,
+            text="Edit",
+            bg=Theme.EDIT,
+            fg=Theme.FG, 
+            font=Theme.FONT_TEXT,
+            borderwidth=0,
+            command=self._on_edit,
+        )
+        edit_btn.pack(side=tk.RIGHT, padx=5)
+
+    # --- Clean Click Handlers ---
+    def _on_toggle(self):
+        self.toggle_cb(self.todo.id, self.var.get())
+
+    def _on_delete(self):
+        self.delete_cb(self.todo.id)
+
+    def _on_edit(self):
+        self.edit_cb(self.todo.id, self.todo.task)
