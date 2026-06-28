@@ -31,13 +31,12 @@ class TodoModel:
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     task TEXT NOT NULL,
                     is_completed BOOLEAN NOT NULL CHECK (is_completed IN (0, 1))
-                )
             """)
 
     def fetch_all(self) -> None:
         """Grabs all todos from the database and broadcasts them."""
         cursor = self.conn.cursor()
-        cursor.execute("SELECT id, task, is_completed FROM todos")
+        cursor.execute("SELECT * FROM todos;")
         rows = cursor.fetchall()
         
         # Convert raw SQL tuples into nice TodoItem objects
